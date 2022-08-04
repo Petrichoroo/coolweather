@@ -2,6 +2,7 @@ package com.coolweather.android;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,7 +112,7 @@ public class ChooseAreaFragment extends Fragment {
         backButton.setVisibility(View.GONE);
         /*  调用LitePal的查询接口来从数据库中读取省级数据，如果读取到了就直接将数据显示到界面上
             若没有读取到则组装出一个请求地址，然后调用queryFromServer()方法来从服务器上查询数据*/
-        provinceList = LitePal.findAll(Province.class);
+        provinceList = LitePal.findAll(Province.class); //第一次肯定无法从数据库读取到数据
 
         if (provinceList.size() > 0) {
             dataList.clear();

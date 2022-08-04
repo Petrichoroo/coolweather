@@ -1,6 +1,7 @@
 package com.coolweather.android.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 
 import com.coolweather.android.db.City;
@@ -10,7 +11,6 @@ import com.coolweather.android.db.Province;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 public class Utility {
     /**
