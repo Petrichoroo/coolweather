@@ -124,7 +124,7 @@ public class ChooseAreaFragment extends Fragment {
             currentLevel = LEVEL_PROVINCE;
         } else {
             /**
-             * Android P全面禁止了非安全的http连接 若要使用非加密连接 需要配置network security config.xml*/
+             * Android P全面禁止了非安全的http连接 若要使用非加密连接 要配置network security config.xml*/
             String address = "http://guolin.tech/api/china";
             queryFromServer(address, "province");
         }
