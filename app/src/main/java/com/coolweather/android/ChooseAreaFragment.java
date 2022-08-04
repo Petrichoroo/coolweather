@@ -89,7 +89,7 @@ public class ChooseAreaFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             /**
              * 在返回按钮的点击事件里，会对当前ListView的列表级别进行判断
-             * 如果当前是县级列表，那么就返回到市级列表 如果当前是市级列表，那么就返回到省级表列表
+             * 若当前是县级列表，那么就返回到市级列表 若当前是市级列表，那么就返回到省级表列表
              * 当返回到省级列表时，返回按钮会自动隐藏
              */
             @Override
