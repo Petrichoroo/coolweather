@@ -1,8 +1,8 @@
 package com.coolweather.android;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,6 +82,12 @@ public class ChooseAreaFragment extends Fragment {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(i); //得到当前选中的市级所对应的City对象 用于其后的查询
                     queryCounties();    //去查询县级数据
+                } else if (currentLevel == LEVEL_COUNTY) {
+                    String weatherId = countyList.get(i).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id", weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
@@ -119,7 +125,7 @@ public class ChooseAreaFragment extends Fragment {
             for (Province province : provinceList) {
                 dataList.add(province.getProvinceName());
             }
-            adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged(); //通知ListView更新界面(dataList已经更新)
             listView.setSelection(0);   //将第1个item显示在listView的最上面一项
             currentLevel = LEVEL_PROVINCE;
         } else {
@@ -146,7 +152,7 @@ public class ChooseAreaFragment extends Fragment {
             listView.setSelection(0);
             currentLevel = LEVEL_CITY;  //修改当前所处级别
         } else {
-            int provinceCode = selectedProvince.getProvinceCode();
+            int provinceCode = selectedProvince.getProvinceCode();  //得到省级单位的代号 拼接到url后 用于查找其下属的市级单位
             String address = "http://guolin.tech/api/china/" + provinceCode;
             queryFromServer(address, "city");
         }
@@ -164,9 +170,9 @@ public class ChooseAreaFragment extends Fragment {
             for (County county : countyList) {
                 dataList.add(county.getCountyName());
             }
-            adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged(); //通知ListView更新界面(dataList已经更新)
             listView.setSelection(0);
-            currentLevel = LEVEL_COUNTY;
+            currentLevel = LEVEL_COUNTY;    //将当前所处级别修改为县级
         } else {
             int provinceCode = selectedProvince.getProvinceCode();
             int cityCode = selectedCity.getCityCode();
@@ -204,7 +210,7 @@ public class ChooseAreaFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            closeProgressDialog();
+                            closeProgressDialog();  //关闭对话框
                             if ("province".equals(type)) {
                                 queryProvinces();
                             } else if ("city".equals(type)) {

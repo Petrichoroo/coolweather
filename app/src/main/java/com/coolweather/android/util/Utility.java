@@ -7,6 +7,8 @@ import android.util.Log;
 import com.coolweather.android.db.City;
 import com.coolweather.android.db.County;
 import com.coolweather.android.db.Province;
+import com.coolweather.android.gson.Weather;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +19,7 @@ public class Utility {
      * 解析和处理服务器返回的省级数据
      */
     public static boolean handleProvinceResponse(String response) {
-        if (!TextUtils.isEmpty(response)) {
+        if (!TextUtils.isEmpty(response)) { //判断两种空值 null和空
             try {
                 JSONArray allProvinces = new JSONArray(response);
                 for (int i = 0; i < allProvinces.length(); i++) {
@@ -79,5 +81,37 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    /**
+     * 将返回的JSON数据解析成Weather实体类
+     * JSONObject的数据是用{ }来表示 而JSONArray是用[{ },{ },...,{ }]来表示
+     * 即JSONArray是由JSONObject构成的数组
+     * 注意：
+     * 上面省市县返回的JSON数据格式是 [{"id":1,"name":"北京"},{"id":2,"name":"上海"}...] 故先用JSONArray解析 再得到其包含的每个JSONObject
+     * 而下面返回的天气信息的JSON数据格式是
+     * {
+     *  "HeWeather": [
+     *      {
+     *      "status": "ok",
+     *      "basic": {},
+     *      "aqi": {},
+     *      "now": {},
+     *      "suggestion": {},
+     *      "daily_forecast" :[]
+     *      }
+     *  ]
+     * } 故先用JSONObject解析 再用JSONArray得到相关信息
+     */
+    public static Weather handleWeatherResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent, Weather.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
