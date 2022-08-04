@@ -129,8 +129,8 @@ public class WeatherActivity extends AppCompatActivity {
             View view = LayoutInflater.from(this).inflate(R.layout.forecast_item, forecastLayout, false);
             TextView dateText = view.findViewById(R.id.date_text);  //时间
             TextView infoText = view.findViewById(R.id.info_text);  //天气状态
-            TextView maxText = view.findViewById(R.id.max_text);    //最高温
-            TextView minText = view.findViewById(R.id.min_text);    //最低温
+            TextView maxText = view.findViewById(R.id.max_text);    //最高温度
+            TextView minText = view.findViewById(R.id.min_text);    //最低温度
             dateText.setText(forecast.data);
             infoText.setText(forecast.more.info);
             maxText.setText(forecast.temperature.max);
